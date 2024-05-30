@@ -7,7 +7,7 @@ type Props = {
   active: number;
   setActive: (active: number) => void;
   propertyData: any;
-  handlePropertyCreate: any;
+  handlePropertyCreate: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 };
 
 const PropertyPreview: FC<Props> = ({
@@ -16,20 +16,20 @@ const PropertyPreview: FC<Props> = ({
   setActive,
   active,
 }) => {
-  console.log(propertyData)
+  console.log(propertyData);
   const discountPercentenge =
     ((propertyData?.estimatedPrice - propertyData?.price) /
       propertyData?.estimatedPrice) *
     100;
   const discountPercentengePrice = discountPercentenge.toFixed(0);
-const prevButton = ()=>{
-    setActive(active-1);
-};
-const createProperty = () =>{
-    handlePropertyCreate();
-}
 
+  const prevButton = () => {
+    setActive(active - 1);
+  };
 
+  const createProperty = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    handlePropertyCreate(e);
+  };
 
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
@@ -50,7 +50,7 @@ const createProperty = () =>{
           <div
             className={`${styles.button} !w-[180px] my-3 font-Poppins !bg-[crimson] cursor-not-allowed`}
           >
-            Visitar{propertyData?.price}
+            Visitar {propertyData?.price}
           </div>
         </div>
 
@@ -68,7 +68,7 @@ const createProperty = () =>{
             </div>
             <br />
             <h1 className="text-[25px] font-Poppins font-[600]">
-              Beneficios al Obtener la propiedads
+              Beneficios al Obtener la propiedad
             </h1>
             <div>
               {propertyData?.benefits?.map((item: any, index: number) => (
@@ -84,7 +84,6 @@ const createProperty = () =>{
               ))}
               <br />
               <br />
-              {/*Desripcion del curso*/}
               <div className="w-full">
                 <h1 className="text-[25px] font-Poppins font-[600]">
                   Detalles de la propiedad
@@ -98,15 +97,18 @@ const createProperty = () =>{
         </div>
       </div>
       <div className="w-full flex items-center justify-between">
-        <div className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
-        onClick={() => prevButton()}>
-            Prev
+        <div
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          onClick={prevButton}
+        >
+          Prev
         </div>
-        <div className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
-        onClick={()=>createProperty()}>
-            Crear
+        <div
+          className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+          onClick={createProperty}
+        >
+          Crear
         </div>
-
       </div>
     </div>
   );

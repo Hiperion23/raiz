@@ -3,10 +3,10 @@ import { apiSlice } from "../api/apiSlice";
 export const propertyApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createProperty: builder.mutation({
-      query: ( data ) => ({
+      query: (data) => ({
         url: "createProperty",
         method: "POST",
-        body:  data ,
+        body: data,
         credentials: "include" as const,
       }),
     }),
@@ -18,7 +18,7 @@ export const propertyApi = apiSlice.injectEndpoints({
       }),
     }),
     deleteProperty: builder.mutation({
-      query: ( id ) => ({
+      query: (id) => ({
         url: `delete-property/${id}`,
         method: "DELETE",
         credentials: "include" as const,
@@ -38,6 +38,14 @@ export const propertyApi = apiSlice.injectEndpoints({
         credentials: "include" as const,
       }),
     }),
+    editProperty: builder.mutation({
+      query: ({ id, data }) => ({
+        url: `editProperty/${id}`,
+        method: "PUT",
+        body: data,
+        credentials: "include" as const,
+      }),
+    }),
   }),
 });
 
@@ -46,5 +54,6 @@ export const {
   useGetUserAllPropertiesQuery,
   useGetAllPropertiesQuery,
   useDeletePropertyMutation,
-  useGetPropertieDetailsQuery
+  useGetPropertieDetailsQuery,
+  useEditPropertyMutation,
 } = propertyApi;

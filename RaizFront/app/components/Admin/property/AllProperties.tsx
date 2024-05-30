@@ -1,91 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useTheme } from "next-themes";
 import { FiEdit2 } from "react-icons/fi";
-import { useGetAllPropertiesQuery , useDeletePropertyMutation} from "@/redux/features/property/propertiesApi";
+import {
+  useGetAllPropertiesQuery,
+  useDeletePropertyMutation,
+} from "@/redux/features/property/propertiesApi";
 import Loader from "../../Loader/Loader";
-import { format } from "timeago.js";
 import { toast } from "react-hot-toast";
-import { styles } from "@/app/styles/style";
 import Link from "next/link";
 
 type Props = {};
 
+interface Property {
+  _id: string;
+  image: string;
+  name: string;
+  location: string;
+  price: string;
+  description: string;
+}
+
 const AllProperties = (props: Props) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [open, setOpen] = useState(false);
   const [propertieId, setPropertieId] = useState("");
-  //api de mostrar propiedades, traemos el Query creado
   const { isLoading, data, refetch } = useGetAllPropertiesQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
   const [deletePropertie, { isSuccess, error }] = useDeletePropertyMutation({});
 
-  const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "title", headerName: "Titulo de la propiedad", flex: 0.5 },
-    { field: "rating", headerName: "Calificaciones", flex: 0.5 },
-    { field: "purchased", headerName: "Comprada", flex: 0.5 },
-    { field: "created_at", headerName: "Fecha de Creacion", flex: 0.5 },
-    { 
-      field: "   ",
-      headerName: "Editar",
-      flex: 0.2,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <Link href={`/admin/edit-propertie/${params.row.id}`} >
-              <FiEdit2 className="dark:text-white text-black" size={20} />
-            </Link>
-          </>
-        );
-      },
-    },
-    { 
-      field: " ",
-      headerName: "Delete",
-      flex: 0.2,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <Button
-              onClick={() => {
-                setOpen(!open);
-                setPropertieId(params.row.id);
-              }}
-            >
-              <AiOutlineDelete
-                className="dark:text-white text-black"
-                size={20}
-              />
-            </Button>
-          </>
-        );
-      },
-    },
-  ];
-  const rows: any = [];
-  {
-    data &&
-      data.properties.forEach((item: any) => {
-        rows.push({
-          id: item._id,
-          title: item.name,
-          ratings: item.ratings,
-          purchased: item.purchased,
-          created_at: format(item.createdAt),
-        });
-      });
-  }
-
   useEffect(() => {
     if (isSuccess) {
       setOpen(false);
       refetch();
-      toast.success("Propiedad eliminada con exito");
+      toast.success("Propiedad eliminada con éxito");
     }
     if (error) {
       if ("data" in error) {
@@ -101,98 +52,112 @@ const AllProperties = (props: Props) => {
   };
 
   return (
-    <div className="mt-[120px]">
+    <div className="mt-32">
       {isLoading ? (
         <Loader />
       ) : (
-        <Box m="20px">
-          <Box
-            m="40px 0 0 0"
-            height="80vh"
-            sx={{
-              "& .MuiDataGrid-root": {
-                border: "none",
-                outline: "none",
-              },
-              "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-Icon": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-sortIcon": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-row": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderBottom:
-                  theme === "dark"
-                    ? "1px solid #ffffff30!important"
-                    : "1px solid #ccc!important",
-              },
-              "& .MuiTablePagination-root": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "none", 
-              },
-              "& .name-column--cell": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-columnHeader": {
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
-                borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme === "dark" ? "#1F2A40" : "#F2F0F0",
-              },
-              "& .MuiDataGrid-footerContainer": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderTop: "none",
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
-              },
-              "& .MuiCheckbox-root": {
-                color:
-                  theme === "dark" ? `#b7ebde !important` : `#000 !important`,
-              },
-              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                color: `#fff !important`,
-              },
-            }}
-          >
-            <DataGrid checkboxSelection rows={rows} columns={columns} />
-          </Box>
+        <Box m={3}>
+          <div className="grid grid-cols-1 gap-6">
+            {data &&
+              data.properties.map((item: Property) => (
+                <div
+                  key={item._id}
+                  className={`border rounded-lg p-4 shadow-md flex items-center ${
+                    theme === "dark" ? "bg-gray-800" : "bg-white"
+                  }`}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-32 h-32 object-cover rounded-md"
+                  />
+                  <div className="ml-4 flex-grow">
+                    <h2
+                      className={`text-xl font-bold ${
+                        theme === "dark" ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {item.name}
+                    </h2>
+                    <p
+                      className={`text-gray-600 ${
+                        theme === "dark" ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {item.location}
+                    </p>
+                    <p
+                      className={`text-gray-600 ${
+                        theme === "dark" ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {item.price}
+                    </p>
+                    <p
+                      className={`text-gray-600 ${
+                        theme === "dark" ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="ml-4 flex flex-col space-y-2">
+                    <Link href={`/admin/edit-propertie/${item._id}`}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<FiEdit2 />}
+                        fullWidth
+                      >
+                        Editar
+                      </Button>
+                    </Link>
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      startIcon={<AiOutlineDelete />}
+                      onClick={() => {
+                        setOpen(true);
+                        setPropertieId(item._id);
+                      }}
+                      fullWidth
+                    >
+                      Eliminar
+                    </Button>
+                  </div>
+                </div>
+              ))}
+          </div>
           {open && (
             <Modal
               open={open}
-              onClose={() => setOpen(!open)}
+              onClose={() => setOpen(false)}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 dark:text-white"
-              sx={{
-                width: 400,
-                bgcolor: 'background.',
-                border: '2px solid #000',
-                boxShadow: 24,
-                p: 4,
-                borderRadius: 2,
-              }}
+              <Box
+                className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 rounded-lg shadow-lg ${
+                  theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
+                }`}
               >
-                <h1 className={`${styles.title}`}>
-                ¿Está seguro que desea eliminar esta propiedad?
+                <h1 className="text-xl font-bold mb-4">
+                  ¿Está seguro que desea eliminar esta propiedad?
                 </h1>
-                <div className="flex w-full items-center justify-between mb-6 mt-4">
-                  <div
-                    className={`${styles.button} !w-[120px] h-[30px] bg-[#57c7a3]`}
-                    onClick={() => setOpen(!open)}
+                <div className="flex justify-between">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => setOpen(false)}
                   >
-                    Cancel
-                  </div>
-                  <div
-                    className={`${styles.button} !w-[120px] h-[30px] bg-[#d6d]`}
+                    Cancelar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
                     onClick={handleDelete}
                   >
-                    Delete
-                  </div>
+                    Eliminar
+                  </Button>
                 </div>
               </Box>
             </Modal>

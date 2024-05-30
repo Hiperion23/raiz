@@ -26,7 +26,6 @@ const ContentProperty: FC<Props> = ({
   );
   const [dragging, setDragging] = useState(false);
 
-
   // subida de imágenes para una sección específica
   const handleImagesUpload = (
     index: number,
@@ -42,17 +41,18 @@ const ContentProperty: FC<Props> = ({
       setPropertyContentData((prevData: any[]) => {
         const updatedData = [...prevData];
 
-        updatedData[index]={
+        updatedData[index] = {
           ...updatedData[index],
-          images:updatedData[index].images
-          ? updatedData[index].images.concat(imageUrls)
-          : imageUrls
-        }
+          images: updatedData[index].images
+            ? updatedData[index].images.concat(imageUrls)
+            : imageUrls,
+        };
         return updatedData;
       });
     }
     event.target.value = "";
   };
+
   // Funcionalidad de arrastrar y soltar para subir imágenes
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -78,11 +78,11 @@ const ContentProperty: FC<Props> = ({
       const updatedData = [...prevData];
 
       updatedData[index] = {
-          ...updatedData[index],
-          images: updatedData[index].images
-            ? updatedData[index].images.concat(imageUrls)
-            : imageUrls
-        };
+        ...updatedData[index],
+        images: updatedData[index].images
+          ? updatedData[index].images.concat(imageUrls)
+          : imageUrls,
+      };
       return updatedData;
     });
   };
@@ -129,7 +129,7 @@ const ContentProperty: FC<Props> = ({
 
     if (!isSectionValid) {
       toast.error(
-        "La sección no puede estar vacía. Por favor, complete todos los campos ."
+        "La sección no puede estar vacía. Por favor, complete todos los campos."
       );
     } else {
       setActive(active + 1);
@@ -210,7 +210,6 @@ const ContentProperty: FC<Props> = ({
               {!isCollapsed[index] && (
                 <>
                   <div className="my-3">
- 
                     <input
                       type="file"
                       accept="image/*"
@@ -252,7 +251,7 @@ const ContentProperty: FC<Props> = ({
                     <label className={styles.label}>Ubicación</label>
                     <input
                       type="text"
-                      placeholder="sdder..."
+                      placeholder="Introduce la ubicación..."
                       className={`${styles.input}`}
                       value={item.videoUrl}
                       onChange={(e) => {
@@ -265,13 +264,11 @@ const ContentProperty: FC<Props> = ({
                     />
                   </div>
                   <div className="mb-3">
-                    <label className={styles.label}>
-                      DESCRIPTION Url del proyecto
-                    </label>
+                    <label className={styles.label}>Descripción del proyecto</label>
                     <textarea
                       rows={8}
                       cols={30}
-                      placeholder="sdder..."
+                      placeholder="Introduce la descripción..."
                       className={`${styles.input} !h-min py-2`}
                       value={item.description}
                       onChange={(e) => {
@@ -288,7 +285,7 @@ const ContentProperty: FC<Props> = ({
                       <label className={styles.label}>Baños</label>
                       <input
                         type="number"
-                        placeholder="sdder..."
+                        placeholder="Introduce el número de baños..."
                         className={`${styles.input}`}
                         value={item.bedrooms}
                         onChange={(e) => {
@@ -304,7 +301,7 @@ const ContentProperty: FC<Props> = ({
                       <label className={styles.label}>Habitaciones</label>
                       <input
                         type="number"
-                        placeholder="sdder..."
+                        placeholder="Introduce el número de habitaciones..."
                         className={`${styles.input}`}
                         value={item.bathrooms}
                         onChange={(e) => {
@@ -319,8 +316,8 @@ const ContentProperty: FC<Props> = ({
                     <div className="flex-1">
                       <label className={styles.label}>Tamaño</label>
                       <input
-                        type="Text"
-                        placeholder="sdder..."
+                        type="text"
+                        placeholder="Introduce el tamaño..."
                         className={`${styles.input}`}
                         value={item.size}
                         onChange={(e) => {
@@ -345,13 +342,13 @@ const ContentProperty: FC<Props> = ({
           className="w-full 800px:w-[180px] flex item-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => prevButton()}
         >
-          Prev
+          Anterior
         </div>
         <div
           className="w-full 800px:w-[180px] flex item-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           onClick={() => handleOptions()}
         >
-          Next
+          Siguiente
         </div>
       </div>
     </div>

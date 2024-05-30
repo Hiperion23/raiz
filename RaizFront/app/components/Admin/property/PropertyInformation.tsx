@@ -76,22 +76,19 @@ const PropertyInformation: FC<Props> = ({
               setPropertyInfo({ ...propertyInfo, name: e.target.value })
             }
             id="name"
-            placeholder="adasdasdasdasd"
+            placeholder="Introduce el nombre de la propiedad"
             className={`${styles.input}`}
           />
         </div>
         <br />
         <div className="mb-5">
-          <label className={`${styles.label}`}>
-            {" "}
-            Descripción de la propiedad
-          </label>
+          <label className={`${styles.label}`}>Descripción de la propiedad</label>
           <textarea
             name=""
             id=""
             cols={30}
             rows={8}
-            placeholder="Write someting amazing..."
+            placeholder="Escribe algo asombroso..."
             className={`${styles.input} !h-min !py-2`}
             value={propertyInfo.description}
             onChange={(e: any) =>
@@ -112,12 +109,12 @@ const PropertyInformation: FC<Props> = ({
                 setPropertyInfo({ ...propertyInfo, price: e.target.value })
               }
               id="price"
-              placeholder="29"
+              placeholder="Introduce el precio"
               className={`${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
-            <label className={`${styles.label}`}>Descuento(opcional)</label>
+            <label className={`${styles.label}`}>Descuento (opcional)</label>
             <input
               type="number"
               name=""
@@ -129,7 +126,7 @@ const PropertyInformation: FC<Props> = ({
                 })
               }
               id="price"
-              placeholder="78"
+              placeholder="Introduce el descuento"
               className={`${styles.input}`}
             />
           </div>
@@ -138,7 +135,7 @@ const PropertyInformation: FC<Props> = ({
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
             <label htmlFor="email" className={`${styles.label}`}>
-              Properties Tags
+              Etiquetas de la Propiedad
             </label>
             <input
               type="text"
@@ -152,14 +149,12 @@ const PropertyInformation: FC<Props> = ({
                 })
               }
               id="tags"
-              placeholder="adssadasdasdasdas"
+              placeholder="Introduce etiquetas"
               className={`${styles.input}`}
             />
           </div>
           <div className="w-[50%]">
-            <label className={`${styles.label} w-[50%]`}>
-              Categorias de la Propiedad
-            </label>
+            <label className={`${styles.label} w-[50%]`}>Categorías de la Propiedad</label>
             <select 
             name="" 
             id="" 
@@ -168,7 +163,7 @@ const PropertyInformation: FC<Props> = ({
             onChange={(e:any)=>
               setPropertyInfo({...propertyInfo, categories: e.target.value})
             } >
-              <option value="">Selecciona Categoria</option>
+              <option value="">Selecciona Categoría</option>
               {categories.map((item: any) => (
                 <option value={item._id} key={item._id}>
                   {item.title}
@@ -180,7 +175,7 @@ const PropertyInformation: FC<Props> = ({
         <br />
         <div className="w-full flex justify-between">
           <div className="w-[45%]">
-            <label className={`${styles.label}`}>Property level</label>
+            <label className={`${styles.label}`}>Nivel de la Propiedad</label>
             <input
               type="text"
               name=""
@@ -195,9 +190,7 @@ const PropertyInformation: FC<Props> = ({
             />
           </div>
           <div className="w-[50%]">
-            <label className={`${styles.label}`}>
-              Demo URl LOCATION(opcional)
-            </label>
+            <label className={`${styles.label}`}>Ubicación de la Demo (opcional)</label>
             <input
               type="text"
               name=""
@@ -209,7 +202,7 @@ const PropertyInformation: FC<Props> = ({
                 })
               }
               id="demoUrl"
-              placeholder="eert567"
+              placeholder="Introduce la URL de la demo"
               className={`${styles.input}`}
             />
           </div>
@@ -240,7 +233,7 @@ const PropertyInformation: FC<Props> = ({
               />
             ) : (
               <span className="text-black dark:text-white">
-                Arrastre y suelte su miniatura aquí o haga clic para explorar
+                Arrastra y suelta tu miniatura aquí o haz clic para explorar
               </span>
             )}
           </label>
@@ -249,7 +242,7 @@ const PropertyInformation: FC<Props> = ({
         <div className="w-full flex items-center justify-end">
           <input
             type="submit"
-            value="Next"
+            value="Siguiente"
             className="w-full 800px:w-[180px] h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
           />
         </div>

@@ -1,11 +1,9 @@
 import React, { FC, useEffect, useState } from "react";
-import { DataGrid } from "@mui/x-data-grid";
 import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
 import { useTheme } from "next-themes";
-import Loader from "../../Loader/Loader";
 import { format } from "timeago.js";
-import { styles } from "../../../styles/style";
+import Loader from "../../Loader/Loader";
 import { toast } from "react-hot-toast";
 import {
   useGetAllUsersQuery,
@@ -18,7 +16,7 @@ type Props = {
 };
 
 const AllUsers: FC<Props> = ({ isTeam }) => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const [active, setActive] = useState(false);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("admin");
@@ -27,7 +25,6 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
   const [updateUserRole, { error: updateError, isSuccess }] =
     useUpdateUserRoleMutation();
 
-  //api de mostrar propiedades, traemos el Query creado
   const { isLoading, data, refetch } = useGetAllUsersQuery(
     {},
     { refetchOnMountOrArgChange: true }
@@ -45,12 +42,12 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
 
     if (isSuccess) {
       refetch();
-      toast.success("Rol del usuario actualizado con exito");
+      toast.success("Rol del usuario actualizado con éxito");
       setActive(false);
     }
     if (deleteSuccess) {
       refetch();
-      toast.success("Usuario eliminado con exito");
+      toast.success("Usuario eliminado con éxito");
       setOpen(false);
     }
     if (deleteError) {
@@ -70,41 +67,43 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
     { field: "created_at", headerName: "Fecha de Registro", flex: 0.5 },
     {
       field: " ",
-      headerName: "Delete",
+      headerName: "Eliminar",
       flex: 0.2,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <Button
-              onClick={() => {
-                setOpen(!open);
-                setUserId(params.row.id);
-              }}
-            >
-              <AiOutlineDelete
-                className="dark:text-white text-black"
-                size={20}
-              />
-            </Button>
-          </>
-        );
-      },
+      renderCell: (params: any) => (
+        <Button
+          variant="outlined"
+          color="secondary"
+          startIcon={<AiOutlineDelete />}
+          onClick={() => {
+            setOpen(true);
+            setUserId(params.row.id);
+          }}
+          fullWidth
+          className="mb-2"
+        >
+          Eliminar
+        </Button>
+      ),
     },
     {
       field: "  ",
       headerName: "Email",
       flex: 0.2,
-      renderCell: (params: any) => {
-        return (
-          <>
-            <a href={`mailto:${params.row.email}`}>
-              <AiOutlineMail className="dark:text-white text-black" size={20} />
-            </a>
-          </>
-        );
-      },
+      renderCell: (params: any) => (
+        <Button
+          variant="outlined"
+          color="primary"
+          startIcon={<AiOutlineMail />}
+          component="a"
+          href={`mailto:${params.row.email}`}
+          fullWidth
+        >
+          Email
+        </Button>
+      ),
     },
   ];
+
   const rows: any = [];
 
   if (isTeam) {
@@ -134,9 +133,11 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
         });
       });
   }
-  const handleSubmit = async()=>{
-    await updateUserRole({email, role});
-  }
+
+  const handleSubmit = async () => {
+    await updateUserRole({ email, role });
+  };
+
   const handleDelete = async () => {
     const id = userId;
     await deleteUser(id);
@@ -147,97 +148,69 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       {isLoading ? (
         <Loader />
       ) : (
-        <Box m="20px">
-          {isTeam && (
-            <div className="w-full flex justify-end">
+        <Box m={3}>
+          <div className="grid grid-cols-1 gap-6">
+            {rows.map((item: any) => (
               <div
-                className={`${styles.button} !w-[200px] dark:bg-[#57c7a3] !h-[35px] dark:border dark:border-[#ffffff6c]`}
-                onClick={() => setActive(!active)}
+                key={item.id}
+                className={`border rounded-lg p-4 shadow-md flex items-center ${
+                  theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'
+                }`}
               >
-                Añadir nuevo 
+                <div className="flex-grow">
+                  <h2 className="text-xl font-bold">{item.name}</h2>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Email: {item.email}</p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Rol: {item.role}</p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Propiedades compradas: {item.properties}</p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Fecha de Registro: {item.created_at}</p>
+                </div>
+                <div className="ml-4 flex flex-col space-y-2">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    startIcon={<AiOutlineDelete />}
+                    onClick={() => {
+                      setOpen(true);
+                      setUserId(item.id);
+                    }}
+                    fullWidth
+                  >
+                    Eliminar
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<AiOutlineMail />}
+                    component="a"
+                    href={`mailto:${item.email}`}
+                    fullWidth
+                  >
+                    Email
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
-          <Box
-            m="40px 0 0 0"
-            height="80vh"
-            sx={{
-              "& .MuiDataGrid-root": {
-                border: "none",
-                outline: "none",
-              },
-              "& .css-pqjvzy-MuiSvgIcon-root-MuiSelect-Icon": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-sortIcon": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-row": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderBottom:
-                  theme === "dark"
-                    ? "1px solid #ffffff30!important"
-                    : "1px solid #ccc!important",
-              },
-              "& .MuiTablePagination-root": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-cell": {
-                borderBottom: "none",
-              },
-              "& .name-column--cell": {
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-columnHeader": {
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
-                borderBottom: "none",
-                color: theme === "dark" ? "#fff" : "#000",
-              },
-              "& .MuiDataGrid-virtualScroller": {
-                backgroundColor: theme === "dark" ? "#1F2A40" : "#F2F0F0",
-              },
-              "& .MuiDataGrid-footerContainer": {
-                color: theme === "dark" ? "#fff" : "#000",
-                borderTop: "none",
-                backgroundColor: theme === "dark" ? "#3e4396" : "#A4A9FC",
-              },
-              "& .MuiCheckbox-root": {
-                color:
-                  theme === "dark" ? `#b7ebde !important` : `#000 !important`,
-              },
-              "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-                color: `#fff !important`,
-              },
-            }}
-          >
-            <DataGrid checkboxSelection rows={rows} columns={columns} />
-          </Box>
-          
-          
+            ))}
+          </div>
           {open && (
             <Modal
               open={open}
-              onClose={() => setOpen(!open)}
+              onClose={() => setOpen(false)}
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-0">
-                <h1 className={`${styles.title}`}>
-                  Esta seguro que desea eliminar este Usuario ?
+              <Box
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-lg"
+              >
+                <h1 className={`text-xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                  ¿Está seguro que desea eliminar este usuario?
                 </h1>
-                <div className="flex w-full items-center justify-between mb-6 mt-4">
-                  <div
-                    className={`${styles.button} !w-[120px] h-[30px] bg-[#57c7a3]`}
-                    onClick={() => setOpen(!open)}
-                  >
-                    Cancel
-                  </div>
-                  <div
-                    className={`${styles.button} !w-[120px] h-[30px] bg-[#d6d]`}
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </div>
+                <div className="flex justify-between">
+                  <Button variant="contained" color="primary" onClick={() => setOpen(false)}>
+                    Cancelar
+                  </Button>
+                  <Button variant="contained" color="secondary" onClick={handleDelete}>
+                    Eliminar
+                  </Button>
                 </div>
               </Box>
             </Modal>
