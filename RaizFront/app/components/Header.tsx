@@ -47,7 +47,6 @@ const Header: FC<Props> = ({ activateItem, setOpen, route, open, setRoute }) => 
       toast.success("Sesion Iniciada");
       setLogout(true);
     }
-
   }, [data, user, isSuccess]);
 
   useEffect(() => {
@@ -76,7 +75,7 @@ const Header: FC<Props> = ({ activateItem, setOpen, route, open, setRoute }) => 
       <div
         className={`${
           active
-            ? "dark:bg-opacity-50 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black fixed top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500"
+            ? "bg-white dark:bg-gray-900 fixed top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500"
             : "w-full border-b dark:border-[#ffffff1c] h-[80px] z-[80] dark:shadow"
         }`}
       >
@@ -132,7 +131,7 @@ const Header: FC<Props> = ({ activateItem, setOpen, route, open, setRoute }) => 
               <NavItems activateItem={activateItem} isMobile={true} />
               <HiOutlineUserCircle
                 size={25}
-                className="cursor-pointer ml-5 my-2 text-black  dark:text-white"
+                className="cursor-pointer ml-5 my-2 text-black dark:text-white"
                 onClick={() => setOpen(true)}
               />
               <br />

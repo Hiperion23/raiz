@@ -149,22 +149,30 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
         <Loader />
       ) : (
         <Box m={3}>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid gap-6 sm:grid-cols-1">
             {rows.map((item: any) => (
               <div
                 key={item.id}
-                className={`border rounded-lg p-4 shadow-md flex items-center ${
+                className={`border rounded-lg p-4 shadow-md flex flex-col md:flex-row items-start md:items-center ${
                   theme === 'dark' ? 'bg-gray-800 text-white' : 'bg-white text-black'
                 }`}
               >
                 <div className="flex-grow">
                   <h2 className="text-xl font-bold">{item.name}</h2>
-                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Email: {item.email}</p>
-                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Rol: {item.role}</p>
-                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Propiedades compradas: {item.properties}</p>
-                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>Fecha de Registro: {item.created_at}</p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                    Email: {item.email}
+                  </p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                    Rol: {item.role}
+                  </p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                    Propiedades compradas: {item.properties}
+                  </p>
+                  <p className={`text-gray-600 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
+                    Fecha de Registro: {item.created_at}
+                  </p>
                 </div>
-                <div className="ml-4 flex flex-col space-y-2">
+                <div className="flex flex-col space-y-2 w-full md:w-auto">
                   <Button
                     variant="outlined"
                     color="secondary"

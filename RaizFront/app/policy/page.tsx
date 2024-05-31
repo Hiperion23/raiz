@@ -8,6 +8,11 @@ const page: FC<Props> = () => {
     const [open, setOpen] = useState(false);
     const [activeItem, setActiveItem] = useState(0);
     const [route, setRoute] = useState("Login");
+    const [isCookiePolicyOpen, setIsCookiePolicyOpen] = useState(false);
+
+    const handleAcceptCookies = () => {
+        setIsCookiePolicyOpen(false);
+    };
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-800">
@@ -56,7 +61,7 @@ const page: FC<Props> = () => {
                             </p>
                         </li>
                     </ol>
-                </div>                
+                </div>
                 <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 mb-8">
                     <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">Términos de Uso</h2>
                     <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -116,10 +121,42 @@ const page: FC<Props> = () => {
                         Al continuar utilizando nuestro sitio, aceptas nuestro uso de cookies.
                     </p>
                     <p className="text-sm italic mt-4 text-gray-700 dark:text-gray-300 leading-relaxed">
-                        Consulta nuestra <a href="#" className="text-blue-600 dark:text-blue-400 hover:underline">política de cookies</a> para obtener más información.
+                        Consulta nuestra <a href="#" onClick={() => setIsCookiePolicyOpen(true)} className="text-blue-600 dark:text-blue-400 hover:underline">política de cookies</a> para obtener más información.
                     </p>
                 </div>
             </div>
+
+            {isCookiePolicyOpen && (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 w-3/4 max-w-lg">
+            <h2 className="text-2xl font-bold mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">Política de Cookies</h2>
+            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                Utilizamos cookies para mejorar tu experiencia en nuestro sitio web. Las cookies son pequeños archivos de texto que se almacenan en tu dispositivo y nos permiten recordar tus preferencias y visitas anteriores.
+            </p>
+            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                Las cookies se utilizan para:
+            </p>
+            <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                <li>Recordar tus preferencias y configuraciones.</li>
+                <li>Proporcionar contenido personalizado.</li>
+                <li>Analizar el tráfico del sitio y el rendimiento.</li>
+                <li>Facilitar la navegación y mejorar la experiencia del usuario.</li>
+            </ul>
+            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                Al continuar utilizando nuestro sitio, aceptas nuestro uso de cookies.
+            </p>
+            <div className="flex justify-end">
+                <button
+                    onClick={handleAcceptCookies}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+)}
+
         </div>
     );
 };

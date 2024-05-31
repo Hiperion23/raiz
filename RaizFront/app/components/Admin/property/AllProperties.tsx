@@ -57,13 +57,13 @@ const AllProperties = (props: Props) => {
         <Loader />
       ) : (
         <Box m={3}>
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid gap-6 sm:grid-cols-1">
             {data &&
               data.properties.map((item: Property) => (
                 <div
                   key={item._id}
-                  className={`border rounded-lg p-4 shadow-md flex items-center ${
-                    theme === "dark" ? "bg-gray-800" : "bg-white"
+                  className={`border rounded-lg p-4 shadow-md flex flex-col md:flex-row items-center md:items-center ${
+                    theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
                   }`}
                 >
                   <img
@@ -101,8 +101,8 @@ const AllProperties = (props: Props) => {
                       {item.description}
                     </p>
                   </div>
-                  <div className="ml-4 flex flex-col space-y-2">
-                    <Link href={`/admin/edit-propertie/${item._id}`}>
+                  <div className="flex flex-col space-y-2 w-full md:w-auto mt-4 md:mt-0">
+                    <Link href={`/admin/edit-propertie/${item._id}`} className="mx-auto md:mx-0 w-full">
                       <Button
                         variant="outlined"
                         color="primary"
@@ -112,18 +112,20 @@ const AllProperties = (props: Props) => {
                         Editar
                       </Button>
                     </Link>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      startIcon={<AiOutlineDelete />}
-                      onClick={() => {
-                        setOpen(true);
-                        setPropertieId(item._id);
-                      }}
-                      fullWidth
-                    >
-                      Eliminar
-                    </Button>
+                    <div className="mx-auto md:mx-0 w-full">
+                      <Button
+                        variant="outlined"
+                        color="secondary"
+                        startIcon={<AiOutlineDelete />}
+                        onClick={() => {
+                          setOpen(true);
+                          setPropertieId(item._id);
+                        }}
+                        fullWidth
+                      >
+                        Eliminar
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
