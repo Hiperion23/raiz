@@ -65,6 +65,11 @@ const Sidebar = () => {
   const logOutHandler = () => {
     setLogOut(true);
   };
+
+  // Simulación de cantidad de datos para cada sección
+  const userDataCount = 10; // Por ejemplo, cantidad de usuarios
+  const invoiceDataCount = 5; // Por ejemplo, cantidad de facturas
+
   return (
     <Box
       sx={{
@@ -155,7 +160,7 @@ const Sidebar = () => {
                   {user?.name}
                 </Typography>
                 <Typography
-                  variant="h6"  
+                  variant="h6"
                   className="!text-[20px] text-black dark:text-[#ffffffc1] capitalize"
                   sx={{ m: "10px 0 0 0" }}
                 >
@@ -179,26 +184,40 @@ const Sidebar = () => {
             >
               {!isCollapsed && "Datos"}
             </Typography>
-            <Item
-              title="Usuarios"
-              to="/admin/users"
-              icon={<GroupsIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Facturas"
-              to="/admin/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            <Box
+              sx={{
+                background: userDataCount ? "rgba(104, 112, 250, 0.2)" : "none",
+              }}
+            >
+              <Item
+                title="Usuarios"
+                to="/admin/users"
+                icon={<GroupsIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </Box>
+            <Box
+              sx={{
+                background: invoiceDataCount
+                  ? "rgba(104, 112, 250, 0.2)"
+                  : "none",
+              }}
+            >
+              <Item
+                title="Facturas"
+                to="/admin/invoices"
+                icon={<ReceiptOutlinedIcon />}
+                selected={selected}
+                setSelected={setSelected}
+              />
+            </Box>
             <Typography
               variant="h5"
               className="!text-[18px] text-black dark:text-[#ffffffc1] capitalize !font-[400]"
               sx={{ m: "15px 0 5px 20px" }}
             >
-              {!isCollapsed && "Content"}
+              {!isCollapsed && "Contenido"}
             </Typography>
             <Item
               title="Crear Propiedades"

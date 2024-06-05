@@ -3,15 +3,17 @@ import { Box, Button, Modal } from "@mui/material";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useTheme } from "next-themes";
 import { FiEdit2 } from "react-icons/fi";
-import {
-  useGetAllPropertiesQuery,
-  useDeletePropertyMutation,
-} from "@/redux/features/property/propertiesApi";
+import { useGetAllPropertiesQuery, useDeletePropertyMutation } from "@/redux/features/property/propertiesApi";
 import Loader from "../../Loader/Loader";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import Image from "next/image"; // Importación del componente Image de next/image
 
 type Props = {};
+
+interface Thumbnail {
+  url: string;
+}
 
 interface Property {
   _id: string;
@@ -20,6 +22,7 @@ interface Property {
   location: string;
   price: string;
   description: string;
+  thumbnail: Thumbnail; // Añadir esta línea
 }
 
 const AllProperties = (props: Props) => {
@@ -66,9 +69,11 @@ const AllProperties = (props: Props) => {
                     theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-black"
                   }`}
                 >
-                  <img
-                    src={item.image}
+                  <Image
+                    src={item.thumbnail?.url}
                     alt={item.name}
+                    width={128}
+                    height={128}
                     className="w-32 h-32 object-cover rounded-md"
                   />
                   <div className="ml-4 flex-grow">

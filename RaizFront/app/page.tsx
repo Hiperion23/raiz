@@ -4,8 +4,6 @@ import Heading from "./utils/Heading";
 import Header from "./components/Header";
 import Hero from "./components/Route/Hero";
 import Properties from "./components/Route/Properties";
-import Reviews from "./components/Route/Reviews";
-import FAQ from "./components/Route/FAQ";
 import Footer from "./components/Route/Footer";
 interface Props {}
 
@@ -31,8 +29,8 @@ const Page: FC<Props> = (props) => {
       />
       <Hero />
       <Properties />
-      <Reviews />
-      <FAQ />
+
+      {/* <FAQ /> */}
       <Footer />
     </div>
   );

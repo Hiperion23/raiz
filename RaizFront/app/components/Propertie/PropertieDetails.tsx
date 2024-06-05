@@ -2,6 +2,7 @@ import React from "react";
 import { IoCheckmarkDoneOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { format } from "timeago.js";
+import Image from "next/image"; // Importa el componente Image de next/image
 
 type Props = {
   data: any;
@@ -17,22 +18,23 @@ const PropertieDetails = ({ data }: Props) => {
   const handleOrder = (e: any) => {
     console.log("g");
   };
+
   return (
     <div>
       <div className="w-[90%] 800px:w-[90%] m-auto py-5">
         <div className="w-full flex flex-col-reverse 800px:flex-row">
-          <div className="w-full 800px:w-[65%] 800px:pr-5 ">
+          <div className="w-full 800px:w-[65%] 800px:pr-5">
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
               {data?.name}
             </h1>
             <div className="flex items-center justify-between pt-3">
               <div className="flex items-center">
                 <h5 className="text-black dark:text-white">
-                  {data.reviews?.length}Calificaciones
+                  {data.reviews?.length} Calificaciones
                 </h5>
               </div>
               <h5 className="text-black dark:text-white">
-                {data.purchased}Comprado
+                {data.purchased} Comprado
               </h5>
             </div>
             <br />
@@ -52,7 +54,7 @@ const PropertieDetails = ({ data }: Props) => {
                     />
                   </div>
                   <p className="pl-2 text-black dark:text-white">
-                    {item.title}{" "}
+                    {item.title}
                   </p>
                 </div>
               ))}
@@ -62,11 +64,11 @@ const PropertieDetails = ({ data }: Props) => {
                 <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                   Properties Overview
                 </h1>
-                {/* Lista Contenido dela Propiedad */}
+                {/* Lista Contenido de la Propiedad */}
               </div>
               <br />
               <br />
-              {/*Propertie Description*/}
+              {/* Propertie Description */}
               <div className="w-full">
                 <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
                   Properties Details
@@ -84,7 +86,7 @@ const PropertieDetails = ({ data }: Props) => {
                     {Number.isInteger(data?.ratings)
                       ? data?.ratings.toFixed(1)
                       : data?.ratings.toFixed(1)}{" "}
-                    Propertie Rating * {data?.reviews?.length}Reviews
+                    Propertie Rating * {data?.reviews?.length} Reviews
                   </h5>
                 </div>
                 <br />
@@ -123,6 +125,18 @@ const PropertieDetails = ({ data }: Props) => {
                 )}
               </div>
             </div>
+          </div>
+          <div className="w-full 800px:w-[35%]">
+            {/* Aquí se muestra la imagen de la propiedad */}
+            {data.image && (
+              <Image
+                src={data.image}
+                alt={data.name}
+                width={400}
+                height={300}
+                className="object-cover rounded-md"
+              />
+            )}
           </div>
         </div>
       </div>
